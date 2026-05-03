@@ -1,0 +1,12 @@
+{
+    "pluginmetadataversion": 2,
+    "name": "BinjaNX",
+    "type": ["arch"],
+    "api": ["python3"],
+    "description": "A nice and useful description",
+    "longdescription": "aaasion eaaa",
+    "platforms": ["Darwin", "Linux", "Windows"],
+    "version": "0.0.1",
+    "author": "Me :3",
+    "minimumbinaryninjaversion": 4000
+}
