@@ -1,13 +1,13 @@
 from kaitaistruct import KaitaiStream
 
-from formats import ini1k
-from formats import kip1
+from .formats import ini1k
+from .formats import kip1
 
 from pathlib import Path
 
 def ini1_parse(ini1_file: str, outdir: str):
     Ini1 = ini1k.Ini1
-    out_dir = Path("parser/kip1")
+    out_dir = Path("kip1")
     out_dir.mkdir(exist_ok=True)
 
     with open("D:/Pessoal/nx/binaries/INI1.bin", "rb") as f:
@@ -21,7 +21,8 @@ def ini1_parse(ini1_file: str, outdir: str):
         print(f"Compressed .ro size: {hex(kip.header.ro_segment.compressed_size)}")
         print(f"Compressed .data size: {hex(kip.header.data_segment.compressed_size)}")
         print(f".bss (mapped) size: {hex(kip.header.bss_segment.size)}")
-        print(f"Is compressed: {(kip.header.flags & 2) == 2}")
+        print(f"Priotity: {kip.header.mthread_priority}")
+        print(f"Core: {kip.header.mthread_affinity_mask}")
 
         path = out_dir / f"{kip.header.name}.kip"
         try:
@@ -33,8 +34,6 @@ def ini1_parse(ini1_file: str, outdir: str):
             print(f"{kip.header.name}.kip1 already exists, skipping!")
 
         print("")
-
-import struct
 
 Kip1 = kip1.Kip1
 
@@ -86,6 +85,9 @@ def blz_decompress(section: Kip1.BlzSection) -> bytearray:
 
 # D:/Pessoal/nx/binaries/INI1.bin
 
+
+ini1_parse("a", "a")
+
 with open("D:/Pessoal/nx/code/parser/kip1/FS.kip", "rb") as f:
         result = Kip1(KaitaiStream(f))
 
@@ -95,7 +97,7 @@ print(f"Version: {result.header.version}")
 print(f"Main thread priority: {result.header.mthread_priority}")
 print(f"Main thread core affinity: {result.header.mthread_affinity_mask}")
 
-with open("fs.bin", "wb") as f:
+with open("porraaa.kip", "wb") as f:
     f.write(blz_decompress(result.body.text))
     f.write(blz_decompress(result.body.ro))
     f.write(blz_decompress(result.body.data))
